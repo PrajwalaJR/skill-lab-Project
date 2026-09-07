@@ -3,10 +3,12 @@ PURNIKHA S [1CX25CS160]
 
 College Event Management System
 1.  Problem Statement
+
 In many colleges, event management is handled manually through notices, WhatsApp messages, Google Forms, and spreadsheets. This makes it difficult for students to get proper information and for organizers to manage registrations, schedules, attendance, and event updates efficiently.
 Therefore, the proposed system is a centralized digital platform to manage college events efficiently.
 
-2. Requirements
+3. Requirements
+   
 A] Software Requirements
 Python
 Flask
