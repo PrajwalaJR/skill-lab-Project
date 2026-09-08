@@ -45,3 +45,24 @@ QR Code Attendance
 Notifications
 Certificate Generation
 Event Analytics
+
+8/9/26 
+DESIGN IMAGE 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/18d81f9b-542c-4d4c-9938-e2e1e8b554e9" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/3b243b3f-f795-4eda-8b05-215d1cb9e861" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/22da5210-b750-48e0-89ec-2e3aaf9ddcd1" />
+
+PROTOTYPE 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/99790bab-f54a-456f-919a-e9f00e050117" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9513d4ba-45fe-41d7-947b-148757675e6c" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ab7256ba-dca5-496d-abe9-a308926b7ce6" />
+
+
+
+
+
+
