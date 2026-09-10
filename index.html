@@ -7,1338 +7,496 @@
 
     <title>CampusConnect - College Event Management</title>
 
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+    <!-- ================= NAVBAR ================= -->
 
-<!-- =========================
-     LOGIN PAGE
-========================= -->
+    <nav id="navbar" class="navbar">
 
-<section id="login" class="login-page">
-
-    <div class="login-box">
-
-        <div class="login-logo">
-            🎓
+        <div class="logo">
+            Campus<span>Connect</span>
         </div>
 
-        <h1>Welcome to CampusConnect</h1>
+        <div class="nav-links">
 
-        <p class="muted center">
-            Your college events, all in one place.
-        </p>
+            <button onclick="showPage('dashboardPage')">
+                🏠 Dashboard
+            </button>
 
+            <button onclick="showPage('eventsPage')">
+                📅 Events
+            </button>
 
-        <div class="field">
-            <label>Full Name</label>
+            <button onclick="showPage('registeredPage')">
+                📝 My Events
+            </button>
 
-            <input type="text" placeholder="Enter your name">
+            <button onclick="showPage('notificationsPage')">
+                🔔 Notifications
+                <span id="notificationCount" class="notification-badge">0</span>
+            </button>
+
+            <button onclick="showPage('profilePage')">
+                👤 Profile
+            </button>
+
+            <button onclick="logoutUser()" class="logout-btn">
+                Logout
+            </button>
+
         </div>
 
-
-        <div class="field">
-            <label>USN</label>
-
-            <input type="text" placeholder="Enter your USN">
-        </div>
+    </nav>
 
 
-        <div class="field">
-            <label>College Email</label>
+    <!-- ================= LOGIN PAGE ================= -->
 
-            <input type="email" placeholder="Enter your email">
-        </div>
+    <section id="loginPage" class="page auth-page">
 
+        <div class="auth-container">
 
-        <a href="#dashboard" class="primary-btn">
-            Continue →
-        </a>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<section id="dashboard" class="page-section">
-
-    <div class="app-container">
-
-        <div class="topbar">
-
-            <div class="brand">
-                <div class="logo">🎓</div>
-                CampusConnect
+            <div class="auth-logo">
+                Campus<span>Connect</span>
             </div>
 
-            <a href="#notifications" class="icon-btn">
-                🔔
-            </a>
+            <h2>Welcome Back 👋</h2>
 
-        </div>
-
-
-        <div class="hero">
-
-            <h1>Welcome back! 👋</h1>
-
-            <p>
-                Discover events, register instantly,
-                and manage your campus activities.
+            <p class="auth-subtitle">
+                Login to manage and explore college events
             </p>
 
-        </div>
+            <form id="loginForm">
 
+                <label>Email or USN</label>
 
-        <div class="search">
+                <input
+                    type="text"
+                    id="loginIdentifier"
+                    placeholder="Enter your Email or USN"
+                    required
+                >
 
-            🔎
+                <label>Password</label>
 
-            <input type="text" placeholder="Search events...">
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your Password"
+                    required
+                >
 
-        </div>
+                <button type="submit" class="primary-btn">
+                    LOGIN
+                </button>
 
+            </form>
 
+            <p id="loginMessage" class="message"></p>
 
-        <!-- QUICK ACTIONS -->
+            <div class="auth-switch">
 
-        <div class="section-title">
+                New user?
 
-            <h2>Quick Actions</h2>
-
-        </div>
-
-
-        <div class="quick-grid">
-
-
-            <a href="#attendance" class="quick-card">
-
-                <div class="quick-icon">📱</div>
-
-                <b>Scan Attendance</b>
-
-                <p>Quick QR check-in</p>
-
-            </a>
-
-
-            <a href="#certificates" class="quick-card">
-
-                <div class="quick-icon">🏆</div>
-
-                <b>My Certificates</b>
-
-                <p>View achievements</p>
-
-            </a>
-
-
-            <a href="#events" class="quick-card">
-
-                <div class="quick-icon">📅</div>
-
-                <b>Events</b>
-
-                <p>Explore campus events</p>
-
-            </a>
-
-
-            <a href="#my-events" class="quick-card">
-
-                <div class="quick-icon">⭐</div>
-
-                <b>My Events</b>
-
-                <p>Your registrations</p>
-
-            </a>
-
-        </div>
-
-
-
-        <!-- UPCOMING EVENTS -->
-
-        <div class="section-title">
-
-            <h2>Upcoming Events 🔥</h2>
-
-            <a href="#events">View All →</a>
-
-        </div>
-
-
-
-        <div class="event-card">
-
-            <div class="event-banner technical">
-
-                National HackTech 2025
-
-            </div>
-
-
-            <div class="event-content">
-
-                <span class="tag">TECHNICAL</span>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Oct 24–25</span>
-
-                    <span>📍 RoboWars Arena</span>
-
-                </div>
-
-
-                <a href="#event-details" class="primary-btn">
-                    Register Now
-                </a>
+                <button
+                    type="button"
+                    onclick="showCreateAccount()"
+                    class="link-button">
+                    Create an account
+                </button>
 
             </div>
 
         </div>
 
+    </section>
 
 
-        <div class="event-card">
+    <!-- ================= CREATE ACCOUNT PAGE ================= -->
 
-            <div class="event-banner cultural">
+    <section id="createAccountPage" class="page auth-page">
 
-                Aura Fest 2025
+        <div class="auth-container">
 
+            <div class="auth-logo">
+                Campus<span>Connect</span>
             </div>
 
+            <h2>Create Account</h2>
 
-            <div class="event-content">
+            <p class="auth-subtitle">
+                Register as a new student
+            </p>
 
-                <span class="tag">CULTURAL</span>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Oct 26</span>
-
-                    <span>📍 Main Auditorium</span>
-
-                </div>
-
-
-                <a href="#event-details" class="secondary-btn">
-                    View Details
-                </a>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="bottom-nav">
-
-            <a href="#dashboard">⌂<span>Home</span></a>
-
-            <a href="#events">📅<span>Events</span></a>
-
-            <a href="#my-events">⭐<span>My Events</span></a>
-
-            <a href="#profile">👤<span>Profile</span></a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     ALL EVENTS PAGE
-========================= -->
-
-<section id="events" class="page-section">
-
-    <div class="app-container">
-
-        <div class="topbar">
-
-            <div>
-
-                <h2>All Campus Events</h2>
-
-                <p class="muted">
-                    Discover. Register. Participate.
-                </p>
-
-            </div>
-
-            <a href="#notifications" class="icon-btn">
-                🔔
-            </a>
-
-        </div>
-
-
-        <div class="search">
-
-            🔎
-
-            <input type="text" placeholder="Search events...">
-
-        </div>
-
-
-        <div class="chips">
-
-            <span class="chip active">All</span>
-
-            <span class="chip">Technical</span>
-
-            <span class="chip">Cultural</span>
-
-            <span class="chip">Sports</span>
-
-            <span class="chip">Workshops</span>
-
-        </div>
-
-
-        <div class="section-title">
-
-            <h2>Featured Events</h2>
-
-        </div>
-
-
-
-        <div class="event-card">
-
-            <div class="event-banner technical">
-
-                National HackTech 2025
-
-            </div>
-
-
-            <div class="event-content">
-
-                <b>RoboWars Arena 2025</b>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Oct 24–25, 2025</span>
-
-                    <span>🕘 9:00 AM</span>
-
-                </div>
-
-
-                <a href="#event-details" class="primary-btn">
-                    View & Register →
-                </a>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="event-card">
-
-            <div class="event-banner workshop">
-
-                ViCraft Design Sprint
-
-            </div>
-
-
-            <div class="event-content">
-
-                <b>Build, Design & Present</b>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Oct 27</span>
-
-                    <span>📍 Innovation Lab</span>
-
-                </div>
-
-
-                <a href="#event-details" class="secondary-btn">
-                    View Details
-                </a>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="event-card">
-
-            <div class="event-banner sports">
-
-                Zenith E-Sports Challenge
-
-            </div>
-
-
-            <div class="event-content">
-
-                <b>Inter-college Gaming Event</b>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Nov 2</span>
-
-                    <span>🎮 Sports Arena</span>
-
-                </div>
-
-
-                <a href="#event-details" class="primary-btn">
-                    Register Now
-                </a>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     EVENT DETAILS
-========================= -->
-
-<section id="event-details" class="page-section">
-
-    <div class="app-container">
-
-        <a href="#events" class="back-btn">← Back</a>
-
-
-        <div class="detail-banner">
-
-            National HackTech 2025
-
-        </div>
-
-
-        <div class="section-title">
-
-            <h2>National HackTech 2025</h2>
-
-            <span class="tag">TECHNICAL</span>
-
-        </div>
-
-
-        <div class="info-list">
-
-
-            <div class="info-item">
-
-                📅
-
-                <div>
-
-                    <b>Date & Time</b>
-
-                    <p>Oct 24–25, 2025 • 9:00 AM</p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="info-item">
-
-                📍
-
-                <div>
-
-                    <b>Venue</b>
-
-                    <p>RoboWars Arena, Campus Block A</p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="info-item">
-
-                👥
-
-                <div>
-
-                    <b>Participation</b>
-
-                    <p>Team of 2–4 Students</p>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="info-item">
-
-                🏆
-
-                <div>
-
-                    <b>Rewards</b>
-
-                    <p>Certificates and exciting prizes</p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <h2>About the Event</h2>
-
-        <p class="muted description">
-
-            National HackTech is an inter-college technical event
-            where students collaborate, innovate and present
-            solutions to real-world problems.
-
-        </p>
-
-
-        <a href="#registration" class="primary-btn">
-
-            Register for Event →
-
-        </a>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     REGISTRATION PAGE
-========================= -->
-
-<section id="registration" class="page-section">
-
-    <div class="app-container">
-
-        <a href="#event-details" class="back-btn">
-            ← Back
-        </a>
-
-
-        <div class="form-card">
-
-            <span class="tag">
-                NATIONAL HACKTECH 2025
-            </span>
-
-
-            <h2>Registration Form</h2>
-
-
-            <div class="field">
+            <form id="createAccountForm">
 
                 <label>Full Name</label>
 
-                <input type="text"
-                    placeholder="Enter your full name">
+                <input
+                    type="text"
+                    id="registerName"
+                    placeholder="Enter your full name"
+                    required
+                >
 
-            </div>
-
-
-
-            <div class="field">
 
                 <label>USN</label>
 
-                <input type="text"
-                    placeholder="Enter your USN">
+                <input
+                    type="text"
+                    id="registerUSN"
+                    placeholder="Enter your USN"
+                    required
+                >
 
-            </div>
 
+                <label>Email</label>
 
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="Enter your email"
+                    required
+                >
 
-            <div class="field">
 
-                <label>University Email</label>
+                <label>Password</label>
 
-                <input type="email"
-                    placeholder="Enter university email">
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Create a password"
+                    required
+                >
 
-            </div>
 
+                <label>Confirm Password</label>
 
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+                >
 
-            <div class="field">
 
-                <label>Participation Mode</label>
+                <button type="submit" class="primary-btn">
+                    CREATE ACCOUNT
+                </button>
 
-                <select>
+            </form>
 
-                    <option>Team Participation</option>
+            <p id="registerMessage" class="message"></p>
 
-                    <option>Solo Participation</option>
 
-                </select>
+            <div class="auth-switch">
 
-            </div>
+                Already have an account?
 
-
-
-            <div class="field">
-
-                <label>Team Name</label>
-
-                <input type="text"
-                    placeholder="Enter team name">
-
-            </div>
-
-
-
-            <div class="field">
-
-                <label>Department</label>
-
-                <select>
-
-                    <option>
-                        Computer Science Engineering
-                    </option>
-
-                    <option>
-                        Information Science Engineering
-                    </option>
-
-                    <option>
-                        Electronics Engineering
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <a href="#success" class="primary-btn">
-
-                Confirm Registration →
-
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     REGISTRATION SUCCESS
-========================= -->
-
-<section id="success" class="page-section">
-
-    <div class="app-container success-page">
-
-        <div class="success-icon">
-
-            ✓
-
-        </div>
-
-
-        <h1>You’re Registered! 🎉</h1>
-
-
-        <p class="muted center">
-
-            Your registration has been successfully confirmed.
-
-        </p>
-
-
-        <div class="form-card">
-
-            <span class="tag">
-                REGISTRATION CONFIRMED
-            </span>
-
-
-            <h3>National HackTech 2025</h3>
-
-
-            <p class="muted">
-
-                📅 Oct 24–25
-
-                <br>
-
-                📍 RoboWars Arena
-
-            </p>
-
-
-            <div class="qr-box">
-
-                QR
-
-            </div>
-
-
-            <p class="muted center">
-
-                Show this QR code at the event check-in.
-
-            </p>
-
-        </div>
-
-
-        <a href="#my-events" class="primary-btn">
-
-            Go to My Events →
-
-        </a>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     MY EVENTS PAGE
-========================= -->
-
-<section id="my-events" class="page-section">
-
-    <div class="app-container">
-
-        <h2>My Registered Events</h2>
-
-        <p class="muted">
-            Track your event journey.
-        </p>
-
-
-        <div class="chips">
-
-            <span class="chip active">
-                Upcoming (2)
-            </span>
-
-            <span class="chip">
-                Attended (5)
-            </span>
-
-            <span class="chip">
-                Bookmarks
-            </span>
-
-        </div>
-
-
-
-        <div class="event-card">
-
-            <div class="event-banner technical">
-
-                National HackTech 2025
-
-            </div>
-
-
-            <div class="event-content">
-
-                <div class="row">
-
-                    <b>Registration Confirmed</b>
-
-                    <span class="status">
-                        ACTIVE
-                    </span>
-
-                </div>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Oct 24–25</span>
-
-                    <span>👤 Team Member</span>
-
-                </div>
-
-
-                <a href="#attendance" class="primary-btn">
-
-                    Check In
-
-                </a>
+                <button
+                    type="button"
+                    onclick="showLogin()"
+                    class="link-button">
+                    Login
+                </button>
 
             </div>
 
         </div>
 
+    </section>
 
 
-        <div class="event-card">
+    <!-- ================= DASHBOARD ================= -->
 
-            <div class="event-banner workshop">
+    <section id="dashboardPage" class="page">
 
-                AI & Generative Tools Masterclass
+        <div class="container">
 
-            </div>
+            <div class="welcome-section">
 
+                <h1>
+                    Welcome, <span id="dashboardName">Student</span> 👋
+                </h1>
 
-            <div class="event-content">
-
-                <b>Upcoming Workshop</b>
-
-
-                <div class="event-meta">
-
-                    <span>📅 Nov 5</span>
-
-                    <span>📍 Innovation Lab</span>
-
-                </div>
-
-
-                <a href="#event-details" class="secondary-btn">
-
-                    View Details
-
-                </a>
+                <p>
+                    Manage your college events from one place.
+                </p>
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- STATISTICS -->
 
-</section>
+            <div class="stats-grid">
 
+                <div class="stat-card">
 
-
-<!-- =========================
-     QR ATTENDANCE
-========================= -->
-
-<section id="attendance" class="page-section">
-
-    <div class="app-container">
-
-        <h2>QR Check-In</h2>
-
-        <p class="muted">
-
-            National HackTech 2025
-
-        </p>
-
-
-        <div class="scanner">
-
-            <div class="scan-frame"></div>
-
-            <div class="scan-line"></div>
-
-        </div>
-
-
-        <p class="center muted">
-
-            Place the QR code inside the scanner.
-
-        </p>
-
-
-        <a href="#attendance-success"
-            class="primary-btn">
-
-            Simulate Successful Check-In
-
-        </a>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     ATTENDANCE SUCCESS
-========================= -->
-
-<section id="attendance-success" class="page-section">
-
-    <div class="app-container success-page">
-
-        <div class="success-icon">
-
-            ✓
-
-        </div>
-
-
-        <h1>Attendance Confirmed!</h1>
-
-
-        <p class="muted center">
-
-            Your attendance has been successfully recorded.
-
-        </p>
-
-
-        <div class="form-card">
-
-            <span class="status">
-                OFFICIAL CHECK-IN
-            </span>
-
-
-            <div class="info-list">
-
-                <div class="info-item">
-
-                    🕘
+                    <div class="stat-icon">📅</div>
 
                     <div>
-
-                        <b>Check-in Time</b>
-
-                        <p>
-                            10:04 AM
-                        </p>
-
+                        <h3 id="totalEvents">0</h3>
+                        <p>Total Events</p>
                     </div>
 
                 </div>
 
 
-                <div class="info-item">
+                <div class="stat-card">
 
-                    📍
+                    <div class="stat-icon">📝</div>
 
                     <div>
+                        <h3 id="registeredEvents">0</h3>
+                        <p>My Registrations</p>
+                    </div>
 
-                        <b>Venue</b>
+                </div>
 
-                        <p>
-                            RoboWars Arena
-                        </p>
 
+                <div class="stat-card">
+
+                    <div class="stat-icon">🎫</div>
+
+                    <div>
+                        <h3 id="attendedEvents">0</h3>
+                        <p>Events Attended</p>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">🏆</div>
+
+                    <div>
+                        <h3 id="certificateCount">0</h3>
+                        <p>Certificates</p>
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
 
+            <!-- UPCOMING EVENTS -->
 
-        <a href="#certificates" class="primary-btn">
+            <div class="section-header">
 
-            View Certificates →
+                <h2>Upcoming Events</h2>
 
-        </a>
+                <button
+                    class="secondary-btn"
+                    onclick="showPage('eventsPage')">
 
-    </div>
+                    View All Events →
 
-</section>
+                </button>
 
+            </div>
 
-
-<!-- =========================
-     CERTIFICATES PAGE
-========================= -->
-
-<section id="certificates" class="page-section">
-
-    <div class="app-container">
-
-        <h2>My Certificates 🏆</h2>
-
-        <p class="muted">
-
-            Your verified achievements.
-
-        </p>
-
-
-        <div class="certificate">
-
-            <span class="status">
-
-                VERIFIED
-
-            </span>
-
-
-            <h3>
-                National HackTech 2025
-            </h3>
-
-
-            <p class="muted">
-
-                1st Runner-up
-
-            </p>
-
-
-            <a href="#" class="primary-btn">
-
-                Download Certificate
-
-            </a>
+            <div id="dashboardEvents" class="events-grid"></div>
 
         </div>
 
+    </section>
 
 
-        <div class="certificate">
+    <!-- ================= EVENTS PAGE ================= -->
 
-            <span class="status">
+    <section id="eventsPage" class="page">
 
-                VERIFIED
+        <div class="container">
 
-            </span>
+            <div class="page-title">
 
+                <h1>College Events 📅</h1>
 
-            <h3>
-                Full Stack React & Cloud Workshop
-            </h3>
-
-
-            <p class="muted">
-
-                Workshop Completion Certificate
-
-            </p>
-
-
-            <a href="#" class="secondary-btn">
-
-                Download Certificate
-
-            </a>
-
-        </div>
-
-
-
-        <div class="certificate">
-
-            <span class="status">
-
-                VERIFIED
-
-            </span>
-
-
-            <h3>
-                Inter-College RoboWars 2024
-            </h3>
-
-
-            <p class="muted">
-
-                Participation Certificate
-
-            </p>
-
-
-            <a href="#" class="primary-btn">
-
-                Download Certificate
-
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     PROFILE PAGE
-========================= -->
-
-<section id="profile" class="page-section">
-
-    <div class="app-container">
-
-        <div class="profile-head">
-
-            <div class="avatar">
-
-                AM
+                <p>
+                    Discover and register for upcoming events.
+                </p>
 
             </div>
 
 
-            <h2>Alex Morgan</h2>
+            <!-- SEARCH -->
+
+            <div class="search-filter">
+
+                <input
+                    type="text"
+                    id="eventSearch"
+                    placeholder="🔎 Search events..."
+                    oninput="searchEvents()"
+                >
 
 
-            <p class="muted">
+                <select
+                    id="categoryFilter"
+                    onchange="filterCategory()">
 
-                B.Tech • Computer Science Engineering
+                    <option value="all">
+                        All Categories
+                    </option>
 
-            </p>
+                    <option value="Technical">
+                        Technical
+                    </option>
+
+                    <option value="Cultural">
+                        Cultural
+                    </option>
+
+                    <option value="Sports">
+                        Sports
+                    </option>
+
+                    <option value="Workshop">
+                        Workshop
+                    </option>
+
+                    <option value="Seminar">
+                        Seminar
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div id="eventsContainer" class="events-grid"></div>
 
         </div>
 
+    </section>
 
 
-        <div class="stats">
+    <!-- ================= MY EVENTS ================= -->
 
-            <div class="stat">
+    <section id="registeredPage" class="page">
 
-                <b>8</b>
+        <div class="container">
 
-                <span>Registered</span>
+            <div class="page-title">
 
-            </div>
+                <h1>My Events 📝</h1>
 
-
-            <div class="stat">
-
-                <b>12</b>
-
-                <span>Certificates</span>
+                <p>
+                    Events you have registered for.
+                </p>
 
             </div>
 
-
-            <div class="stat">
-
-                <b>98%</b>
-
-                <span>Attendance</span>
-
+            <div id="registeredEventsContainer"
+                 class="events-grid">
             </div>
 
         </div>
 
+    </section>
 
 
-        <div class="form-card">
+    <!-- ================= NOTIFICATIONS ================= -->
 
-            <h3>Academic Profile</h3>
+    <section id="notificationsPage" class="page">
+
+        <div class="container">
+
+            <div class="page-title">
+
+                <h1>Notifications 🔔</h1>
+
+                <p>
+                    Stay updated with your event activities.
+                </p>
+
+            </div>
+
+            <div id="notificationsContainer"
+                 class="notifications-container">
+            </div>
+
+        </div>
+
+    </section>
 
 
-            <div class="menu-item">
+    <!-- ================= PROFILE ================= -->
 
-                🏫 University Email
+    <section id="profilePage" class="page">
 
-                <span>›</span>
+        <div class="container">
+
+            <div class="page-title">
+
+                <h1>My Profile 👤</h1>
+
+                <p>
+                    View your CampusConnect account details.
+                </p>
 
             </div>
 
 
-            <div class="menu-item">
+            <div class="profile-card">
 
-                📚 Department
+                <div class="profile-avatar">
+                    👤
+                </div>
 
-                <span>›</span>
+                <div class="profile-details">
 
-            </div>
+                    <h2 id="profileName">
+                        Student
+                    </h2>
 
+                    <p>
+                        <strong>USN:</strong>
+                        <span id="profileUSN"></span>
+                    </p>
 
-            <div class="menu-item">
+                    <p>
+                        <strong>Email:</strong>
+                        <span id="profileEmail"></span>
+                    </p>
 
-                🎓 Student ID
-
-                <span>›</span>
+                </div>
 
             </div>
 
         </div>
 
+    </section>
 
 
-        <div class="form-card">
+    <!-- ================= EVENT DETAILS MODAL ================= -->
 
-            <h3>Preferences</h3>
+    <div id="eventModal" class="modal">
 
+        <div class="modal-content">
 
-            <div class="menu-item">
+            <button
+                class="close-btn"
+                onclick="closeModal()">
+                ×
+            </button>
 
-                🔔 Event Notifications
-
-                <span>ON</span>
-
-            </div>
-
-
-            <div class="menu-item">
-
-                ⚡ Auto Clash Detection
-
-                <span>ON</span>
-
-            </div>
+            <div id="eventDetails"></div>
 
         </div>
 
     </div>
 
-</section>
 
+    <!-- ================= JAVASCRIPT ================= -->
 
+    <script src="script.js"></script>
 
-<!-- =========================
-     NOTIFICATIONS
-========================= -->
-
-<section id="notifications" class="page-section">
-
-    <div class="app-container">
-
-        <a href="#dashboard" class="back-btn">
-
-            ← Back
-
-        </a>
-
-
-        <h2>Notifications 🔔</h2>
-
-        <p class="muted">
-
-            Stay updated with campus events.
-
-        </p>
-
-
-        <div class="notification">
-
-            <div class="notice-icon">
-                ⚠️
-            </div>
-
-            <div>
-
-                <b>Schedule Conflict Detected</b>
-
-                <p class="muted">
-
-                    Another registered event has a timing clash.
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="notification">
-
-            <div class="notice-icon">
-                🔔
-            </div>
-
-            <div>
-
-                <b>HackFest Tomorrow</b>
-
-                <p class="muted">
-
-                    Don't forget your student ID and laptop.
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="notification">
-
-            <div class="notice-icon">
-                🏆
-            </div>
-
-            <div>
-
-                <b>Certificate Ready!</b>
-
-                <p class="muted">
-
-                    Your certificate is now available.
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="notification">
-
-            <div class="notice-icon">
-                🤝
-            </div>
-
-            <div>
-
-                <b>Team Registration Confirmed</b>
-
-                <p class="muted">
-
-                    Your team registration was successful.
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<script src="script.js"></script>
 </body>
 
 </html>
+
+
