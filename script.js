@@ -1,14 +1,14 @@
-// ======================================================
-// CAMPUSCONNECT
-// COLLEGE EVENT MANAGEMENT SYSTEM
-// ======================================================
+// ============================================================
+//                 CAMPUSCONNECT
+//          COLLEGE EVENT MANAGEMENT SYSTEM
+// ============================================================
 
 
-// ======================================================
-// SAMPLE EVENTS
-// ======================================================
+// ============================================================
+// DEFAULT EVENTS
+// ============================================================
 
-let events = [
+const defaultEvents = [
 
     {
         id: 1,
@@ -17,9 +17,9 @@ let events = [
         date: "2026-09-20",
         time: "10:00 AM - 4:00 PM",
         venue: "Innovation Lab",
+        seats: 100,
         description:
-            "A coding and innovation competition where students solve real-world problems.",
-        seats: 100
+            "A coding and innovation competition where students solve real-world problems."
     },
 
     {
@@ -29,9 +29,9 @@ let events = [
         date: "2026-09-24",
         time: "10:00 AM - 1:00 PM",
         venue: "Seminar Hall",
+        seats: 60,
         description:
-            "Learn the basics of Artificial Intelligence and Machine Learning.",
-        seats: 60
+            "Learn the fundamentals of Artificial Intelligence and Machine Learning."
     },
 
     {
@@ -41,9 +41,9 @@ let events = [
         date: "2026-09-28",
         time: "9:00 AM - 6:00 PM",
         venue: "College Auditorium",
+        seats: 500,
         description:
-            "Celebrate talent, music, dance and creativity at the annual cultural festival.",
-        seats: 500
+            "Celebrate music, dance, art and creativity at the annual cultural festival."
     },
 
     {
@@ -53,9 +53,9 @@ let events = [
         date: "2026-10-03",
         time: "9:00 AM - 5:00 PM",
         venue: "College Ground",
+        seats: 200,
         description:
-            "An exciting cricket tournament between college teams.",
-        seats: 200
+            "An exciting cricket tournament between college teams."
     },
 
     {
@@ -65,56 +65,86 @@ let events = [
         date: "2026-10-08",
         time: "11:00 AM - 1:00 PM",
         venue: "Main Auditorium",
+        seats: 150,
         description:
-            "A career guidance session covering internships, jobs and higher education.",
-        seats: 150
+            "A career guidance session covering internships, jobs and higher education."
     }
 
 ];
 
 
-// ======================================================
-// LOCAL STORAGE
-// ======================================================
+// ============================================================
+// LOAD DATA
+// ============================================================
 
-let campusUsers =
-    JSON.parse(localStorage.getItem("campusUsers")) || [];
+let events =
+    JSON.parse(localStorage.getItem("campusEvents"))
+    || defaultEvents;
 
-let currentUser =
-    JSON.parse(localStorage.getItem("campusCurrentUser")) || null;
 
-let registeredEvents =
-    JSON.parse(localStorage.getItem("campusRegisteredEvents")) || {};
+let users =
+    JSON.parse(localStorage.getItem("campusUsers"))
+    || [];
 
-let notifications =
-    JSON.parse(localStorage.getItem("campusNotifications")) || {};
+
+let registrations =
+    JSON.parse(localStorage.getItem("campusRegistrations"))
+    || {};
+
 
 let attendance =
-    JSON.parse(localStorage.getItem("campusAttendance")) || {};
+    JSON.parse(localStorage.getItem("campusAttendance"))
+    || {};
+
 
 let certificates =
-    JSON.parse(localStorage.getItem("campusCertificates")) || {};
+    JSON.parse(localStorage.getItem("campusCertificates"))
+    || {};
 
 
-// ======================================================
-// SAVE DATA
-// ======================================================
+let notifications =
+    JSON.parse(localStorage.getItem("campusNotifications"))
+    || {};
 
-function saveData() {
+
+let currentUser =
+    JSON.parse(localStorage.getItem("campusCurrentUser"))
+    || null;
+
+
+let currentRole =
+    localStorage.getItem("campusCurrentRole")
+    || null;
+
+
+// ============================================================
+// ADMIN ACCOUNT
+// ============================================================
+
+const ADMIN_EMAIL = "admin@campusconnect.com";
+
+const ADMIN_PASSWORD = "admin123";
+
+
+// ============================================================
+// SAVE EVERYTHING
+// ============================================================
+
+function saveAll() {
+
+    localStorage.setItem(
+        "campusEvents",
+        JSON.stringify(events)
+    );
 
     localStorage.setItem(
         "campusUsers",
-        JSON.stringify(campusUsers)
+        JSON.stringify(users)
     );
 
     localStorage.setItem(
-        "campusRegisteredEvents",
-        JSON.stringify(registeredEvents)
-    );
-
-    localStorage.setItem(
-        "campusNotifications",
-        JSON.stringify(notifications)
+        "campusRegistrations",
+        JSON.stringify(registrations)
     );
 
     localStorage.setItem(
@@ -126,46 +156,101 @@ function saveData() {
         "campusCertificates",
         JSON.stringify(certificates)
     );
+
+    localStorage.setItem(
+        "campusNotifications",
+        JSON.stringify(notifications)
+    );
 }
 
 
-// ======================================================
+// ============================================================
+// HIDE ALL PAGES
+// ============================================================
+
+function hideAllPages() {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.style.display = "none";
+
+        });
+
+}
+
+
+// ============================================================
 // SHOW PAGE
-// ======================================================
+// ============================================================
 
 function showPage(pageId) {
 
     if (!currentUser &&
-        pageId !== "loginPage" &&
-        pageId !== "createAccountPage") {
+        currentRole !== "admin") {
 
         showLogin();
+
         return;
     }
 
 
-    const pages =
-        document.querySelectorAll(".page");
-
-    pages.forEach(page => {
-        page.style.display = "none";
-    });
+    hideAllPages();
 
 
-    const selectedPage =
+    const page =
         document.getElementById(pageId);
 
-    if (selectedPage) {
 
-        selectedPage.style.display = "block";
+    if (page) {
+
+        page.style.display = "block";
+
     }
 
+
+    const navbar =
+        document.getElementById("navbar");
+
+
+    navbar.style.display = "flex";
+
+
+    // Student pages
+
+    if (currentRole === "student") {
+
+        document.getElementById("studentNav")
+            .style.display = "flex";
+
+        document.getElementById("adminNav")
+            .style.display = "none";
+
+    }
+
+
+    // Admin pages
+
+    if (currentRole === "admin") {
+
+        document.getElementById("studentNav")
+            .style.display = "none";
+
+        document.getElementById("adminNav")
+            .style.display = "flex";
+
+    }
+
+
+    // Update pages
 
     if (pageId === "dashboardPage") {
 
-        updateDashboard();
+        updateStudentDashboard();
 
     }
+
 
     if (pageId === "eventsPage") {
 
@@ -173,11 +258,27 @@ function showPage(pageId) {
 
     }
 
-    if (pageId === "registeredPage") {
 
-        displayRegisteredEvents();
+    if (pageId === "myEventsPage") {
+
+        displayMyEvents();
 
     }
+
+
+    if (pageId === "attendancePage") {
+
+        loadAttendanceEvents();
+
+    }
+
+
+    if (pageId === "certificatesPage") {
+
+        displayCertificates();
+
+    }
+
 
     if (pageId === "notificationsPage") {
 
@@ -185,72 +286,160 @@ function showPage(pageId) {
 
     }
 
+
     if (pageId === "profilePage") {
 
         displayProfile();
 
     }
 
+
+    if (pageId === "adminDashboardPage") {
+
+        updateAdminDashboard();
+
+    }
+
+
+    if (pageId === "adminEventsPage") {
+
+        displayAdminEvents();
+
+    }
+
+
+    if (pageId === "adminRegistrationsPage") {
+
+        displayRegistrations();
+
+    }
+
 }
 
 
-// ======================================================
+// ============================================================
 // LOGIN PAGE
-// ======================================================
+// ============================================================
 
 function showLogin() {
 
+    hideAllPages();
+
+
     currentUser = null;
 
-    document.getElementById("loginPage").style.display =
-        "flex";
+    currentRole = null;
 
-    document.getElementById("createAccountPage").style.display =
-        "none";
 
-    document.getElementById("dashboardPage").style.display =
-        "none";
+    localStorage.removeItem(
+        "campusCurrentUser"
+    );
 
-    document.getElementById("eventsPage").style.display =
-        "none";
+    localStorage.removeItem(
+        "campusCurrentRole"
+    );
 
-    document.getElementById("registeredPage").style.display =
-        "none";
 
-    document.getElementById("notificationsPage").style.display =
-        "none";
+    document.getElementById("loginPage")
+        .style.display = "flex";
 
-    document.getElementById("profilePage").style.display =
-        "none";
 
-    document.getElementById("navbar").style.display =
-        "none";
+    document.getElementById("navbar")
+        .style.display = "none";
+
+
+    document.getElementById("loginMessage")
+        .textContent = "";
+
 }
 
 
-// ======================================================
+// ============================================================
 // CREATE ACCOUNT PAGE
-// ======================================================
+// ============================================================
 
 function showCreateAccount() {
 
-    document.getElementById("loginPage").style.display =
-        "none";
+    hideAllPages();
 
-    document.getElementById("createAccountPage").style.display =
-        "flex";
 
-    document.getElementById("navbar").style.display =
-        "none";
+    document.getElementById("createAccountPage")
+        .style.display = "flex";
 
-    document.getElementById("registerMessage").textContent =
-        "";
+
+    document.getElementById("navbar")
+        .style.display = "none";
+
+
+    document.getElementById("registerMessage")
+        .textContent = "";
+
 }
 
 
-// ======================================================
+// ============================================================
+// STUDENT LOGIN TAB
+// ============================================================
+
+function showStudentLogin() {
+
+    document.getElementById("studentLoginTab")
+        .classList.add("active");
+
+
+    document.getElementById("adminLoginTab")
+        .classList.remove("active");
+
+
+    document.getElementById("studentLoginForm")
+        .style.display = "flex";
+
+
+    document.getElementById("loginIdentifier")
+        .placeholder = "Enter Email or USN";
+
+
+    document.getElementById("loginMessage")
+        .textContent = "";
+
+}
+
+
+// ============================================================
+// ADMIN LOGIN TAB
+// ============================================================
+
+function showAdminLogin() {
+
+    document.getElementById("adminLoginTab")
+        .classList.add("active");
+
+
+    document.getElementById("studentLoginTab")
+        .classList.remove("active");
+
+
+    const form =
+        document.getElementById("studentLoginForm");
+
+
+    form.style.display = "flex";
+
+
+    document.getElementById("loginIdentifier")
+        .placeholder = "Admin Email";
+
+
+    document.getElementById("loginMessage")
+        .textContent =
+        "Admin login: admin@campusconnect.com";
+
+}
+
+
+// ============================================================
 // CREATE ACCOUNT
-// ======================================================
+// ============================================================
 
 function createAccount(event) {
 
@@ -259,34 +448,36 @@ function createAccount(event) {
 
     const name =
         document.getElementById("registerName")
-        .value
-        .trim();
+        .value.trim();
+
 
     const usn =
         document.getElementById("registerUSN")
-        .value
-        .trim()
+        .value.trim()
         .toUpperCase();
+
 
     const email =
         document.getElementById("registerEmail")
-        .value
-        .trim()
+        .value.trim()
         .toLowerCase();
+
 
     const password =
         document.getElementById("registerPassword")
         .value;
 
+
     const confirmPassword =
         document.getElementById("confirmPassword")
         .value;
+
 
     const message =
         document.getElementById("registerMessage");
 
 
-    // Check empty fields
+    // Empty fields
 
     if (
         !name ||
@@ -297,23 +488,26 @@ function createAccount(event) {
     ) {
 
         message.textContent =
-            "Please fill in all the fields.";
+            "Please fill in all fields.";
 
         return;
+
     }
 
 
-    // Validate email
+    // Email validation
 
     const emailPattern =
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+
     if (!emailPattern.test(email)) {
 
         message.textContent =
-            "Please enter a valid email address.";
+            "Please enter a valid email.";
 
         return;
+
     }
 
 
@@ -325,10 +519,11 @@ function createAccount(event) {
             "Password must contain at least 6 characters.";
 
         return;
+
     }
 
 
-    // Confirm password
+    // Password matching
 
     if (password !== confirmPassword) {
 
@@ -336,28 +531,30 @@ function createAccount(event) {
             "Passwords do not match.";
 
         return;
+
     }
 
 
-    // Check duplicate account
+    // Duplicate account
 
-    const existingUser =
-        campusUsers.find(user =>
+    const existing =
+        users.find(user =>
             user.email === email ||
             user.usn === usn
         );
 
 
-    if (existingUser) {
+    if (existing) {
 
         message.textContent =
-            "An account with this Email or USN already exists.";
+            "Email or USN is already registered.";
 
         return;
+
     }
 
 
-    // Create account
+    // Create student
 
     const newUser = {
 
@@ -374,10 +571,19 @@ function createAccount(event) {
     };
 
 
-    campusUsers.push(newUser);
+    users.push(newUser);
 
 
-    saveData();
+    registrations[newUser.id] = [];
+
+    attendance[newUser.id] = [];
+
+    certificates[newUser.id] = [];
+
+    notifications[newUser.id] = [];
+
+
+    saveAll();
 
 
     alert(
@@ -391,34 +597,40 @@ function createAccount(event) {
 
 
     showLogin();
+
 }
 
 
-// ======================================================
-// LOGIN USER
-// ======================================================
+// ============================================================
+// LOGIN
+// ============================================================
 
-function loginUser(event) {
+function login(event) {
 
     event.preventDefault();
 
 
     const identifier =
-        document.getElementById("loginIdentifier")
-        .value
-        .trim()
+        document.getElementById(
+            "loginIdentifier"
+        )
+        .value.trim()
         .toLowerCase();
 
+
     const password =
-        document.getElementById("loginPassword")
-        .value;
+        document.getElementById(
+            "loginPassword"
+        ).value;
+
 
     const message =
-        document.getElementById("loginMessage");
+        document.getElementById(
+            "loginMessage"
+        );
 
 
-    // VERY IMPORTANT
-    // Do not continue if fields are empty
+    // EMPTY LOGIN
 
     if (!identifier || !password) {
 
@@ -426,13 +638,54 @@ function loginUser(event) {
             "Please enter your Email/USN and Password.";
 
         return;
+
     }
 
 
-    // Find user
+    // ADMIN LOGIN
+
+    if (
+        identifier === ADMIN_EMAIL &&
+        password === ADMIN_PASSWORD
+    ) {
+
+        currentRole = "admin";
+
+        currentUser = {
+            name: "Administrator",
+            email: ADMIN_EMAIL
+        };
+
+
+        localStorage.setItem(
+            "campusCurrentRole",
+            "admin"
+        );
+
+
+        localStorage.setItem(
+            "campusCurrentUser",
+            JSON.stringify(currentUser)
+        );
+
+
+        document
+            .getElementById("studentLoginForm")
+            .reset();
+
+
+        showPage("adminDashboardPage");
+
+
+        return;
+
+    }
+
+
+    // STUDENT LOGIN
 
     const user =
-        campusUsers.find(user =>
+        users.find(user =>
 
             user.email === identifier ||
 
@@ -441,31 +694,29 @@ function loginUser(event) {
         );
 
 
-    // Account doesn't exist
-
     if (!user) {
 
         message.textContent =
-            "Account not found. Please create an account first.";
+            "Account not found. Please create an account.";
 
         return;
+
     }
 
-
-    // Check password
 
     if (user.password !== password) {
 
         message.textContent =
-            "Incorrect password. Please try again.";
+            "Incorrect password.";
 
         return;
+
     }
 
 
-    // Login successful
-
     currentUser = user;
+
+    currentRole = "student";
 
 
     localStorage.setItem(
@@ -474,109 +725,121 @@ function loginUser(event) {
     );
 
 
-    // Initialize user data
-
-    if (!registeredEvents[currentUser.id]) {
-
-        registeredEvents[currentUser.id] = [];
-
-    }
+    localStorage.setItem(
+        "campusCurrentRole",
+        "student"
+    );
 
 
-    if (!notifications[currentUser.id]) {
+    if (!registrations[user.id]) {
 
-        notifications[currentUser.id] = [];
+        registrations[user.id] = [];
 
     }
 
 
-    if (!attendance[currentUser.id]) {
+    if (!attendance[user.id]) {
 
-        attendance[currentUser.id] = [];
-
-    }
-
-
-    if (!certificates[currentUser.id]) {
-
-        certificates[currentUser.id] = [];
+        attendance[user.id] = [];
 
     }
 
 
-    saveData();
+    if (!certificates[user.id]) {
+
+        certificates[user.id] = [];
+
+    }
+
+
+    if (!notifications[user.id]) {
+
+        notifications[user.id] = [];
+
+    }
+
+
+    saveAll();
 
 
     document
-        .getElementById("loginForm")
+        .getElementById("studentLoginForm")
         .reset();
 
 
-    message.textContent = "";
-
-
-    // Show dashboard
-
     showPage("dashboardPage");
+
 }
 
 
-// ======================================================
+// ============================================================
 // LOGOUT
-// ======================================================
+// ============================================================
 
-function logoutUser() {
+function logout() {
 
     localStorage.removeItem(
         "campusCurrentUser"
     );
 
+    localStorage.removeItem(
+        "campusCurrentRole"
+    );
+
+
     currentUser = null;
 
+    currentRole = null;
+
+
     showLogin();
+
 }
 
 
-// ======================================================
-// DASHBOARD
-// ======================================================
+// ============================================================
+// STUDENT DASHBOARD
+// ============================================================
 
-function updateDashboard() {
+function updateStudentDashboard() {
 
     if (!currentUser) return;
 
 
     document.getElementById(
         "dashboardName"
-    ).textContent = currentUser.name;
+    ).textContent =
+        currentUser.name;
 
 
     document.getElementById(
         "totalEvents"
-    ).textContent = events.length;
+    ).textContent =
+        events.length;
 
 
-    const myEvents =
-        registeredEvents[currentUser.id] || [];
-
-
-    document.getElementById(
-        "registeredEvents"
-    ).textContent = myEvents.length;
+    const myRegistrations =
+        registrations[currentUser.id] || [];
 
 
     const myAttendance =
         attendance[currentUser.id] || [];
 
 
-    document.getElementById(
-        "attendedEvents"
-    ).textContent =
-        myAttendance.length;
-
-
     const myCertificates =
         certificates[currentUser.id] || [];
+
+
+    document.getElementById(
+        "myEventCount"
+    ).textContent =
+        myRegistrations.length;
+
+
+    document.getElementById(
+        "attendanceCount"
+    ).textContent =
+        myAttendance.length;
 
 
     document.getElementById(
@@ -585,26 +848,18 @@ function updateDashboard() {
         myCertificates.length;
 
 
-    // Show first 3 events
-
-    const upcomingEvents =
-        events.slice(0, 3);
-
-
-    displayDashboardEvents(
-        upcomingEvents
-    );
-
+    displayDashboardEvents();
 
     updateNotificationCount();
+
 }
 
 
-// ======================================================
+// ============================================================
 // DASHBOARD EVENTS
-// ======================================================
+// ============================================================
 
-function displayDashboardEvents(eventList) {
+function displayDashboardEvents() {
 
     const container =
         document.getElementById(
@@ -615,64 +870,27 @@ function displayDashboardEvents(eventList) {
     container.innerHTML = "";
 
 
-    eventList.forEach(event => {
+    events.slice(0, 3).forEach(event => {
 
         container.innerHTML +=
             createEventCard(event);
 
     });
+
 }
 
 
-// ======================================================
-// DISPLAY EVENTS
-// ======================================================
-
-function displayEvents(eventList = events) {
-
-    const container =
-        document.getElementById(
-            "eventsContainer"
-        );
-
-
-    if (!container) return;
-
-
-    container.innerHTML = "";
-
-
-    if (eventList.length === 0) {
-
-        container.innerHTML =
-            "<p>No events found.</p>";
-
-        return;
-    }
-
-
-    eventList.forEach(event => {
-
-        container.innerHTML +=
-            createEventCard(event);
-
-    });
-}
-
-
-// ======================================================
-// CREATE EVENT CARD
-// ======================================================
+// ============================================================
+// EVENT CARD
+// ============================================================
 
 function createEventCard(event) {
 
     const myEvents =
-        currentUser
-            ? registeredEvents[currentUser.id] || []
-            : [];
+        registrations[currentUser.id] || [];
 
 
-    const isRegistered =
+    const registered =
         myEvents.includes(event.id);
 
 
@@ -711,19 +929,19 @@ function createEventCard(event) {
 
                 <button
                     class="view-btn"
-                    onclick="openEventDetails(${event.id})">
+                    onclick="viewEvent(${event.id})">
 
-                    View Details
+                    View
 
                 </button>
 
 
                 <button
                     class="register-btn"
-                    onclick="registerForEvent(${event.id})"
-                    ${isRegistered ? "disabled" : ""}>
+                    onclick="registerEvent(${event.id})"
+                    ${registered ? "disabled" : ""}>
 
-                    ${isRegistered
+                    ${registered
                         ? "Registered ✓"
                         : "Register"}
 
@@ -734,19 +952,57 @@ function createEventCard(event) {
         </div>
 
     `;
+
 }
 
 
-// ======================================================
-// SEARCH EVENTS
-// ======================================================
+// ============================================================
+// DISPLAY EVENTS
+// ============================================================
 
-function searchEvents() {
+function displayEvents(eventList) {
+
+    const container =
+        document.getElementById(
+            "eventsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (eventList.length === 0) {
+
+        container.innerHTML =
+            "<p>No events found.</p>";
+
+        return;
+
+    }
+
+
+    eventList.forEach(event => {
+
+        container.innerHTML +=
+            createEventCard(event);
+
+    });
+
+}
+
+
+// ============================================================
+// SEARCH + FILTER
+// ============================================================
+
+function filterEvents() {
 
     const search =
         document.getElementById(
-            "eventSearch"
-        ).value.toLowerCase();
+            "searchInput"
+        )
+        .value
+        .toLowerCase();
 
 
     const category =
@@ -780,40 +1036,28 @@ function searchEvents() {
 
 
     displayEvents(filtered);
+
 }
 
 
-// ======================================================
-// CATEGORY FILTER
-// ======================================================
+// ============================================================
+// VIEW EVENT
+// ============================================================
 
-function filterCategory() {
-
-    searchEvents();
-}
-
-
-// ======================================================
-// EVENT DETAILS
-// ======================================================
-
-function openEventDetails(eventId) {
+function viewEvent(eventId) {
 
     const event =
         events.find(
-            event => event.id === eventId
+            e => e.id === eventId
         );
 
 
     if (!event) return;
 
 
-    const myEvents =
-        registeredEvents[currentUser.id] || [];
-
-
-    const isRegistered =
-        myEvents.includes(event.id);
+    const registered =
+        (registrations[currentUser.id] || [])
+        .includes(event.id);
 
 
     document.getElementById(
@@ -829,22 +1073,22 @@ function openEventDetails(eventId) {
         <br>
 
         <p>
-            <strong>📅 Date:</strong>
+            📅 <strong>Date:</strong>
             ${event.date}
         </p>
 
         <p>
-            <strong>⏰ Time:</strong>
+            ⏰ <strong>Time:</strong>
             ${event.time}
         </p>
 
         <p>
-            <strong>📍 Venue:</strong>
+            📍 <strong>Venue:</strong>
             ${event.venue}
         </p>
 
         <p>
-            <strong>👥 Available Seats:</strong>
+            👥 <strong>Seats:</strong>
             ${event.seats}
         </p>
 
@@ -858,12 +1102,12 @@ function openEventDetails(eventId) {
 
         <button
             class="primary-btn"
-            onclick="registerForEvent(${event.id})"
-            ${isRegistered ? "disabled" : ""}>
+            onclick="registerEvent(${event.id})"
+            ${registered ? "disabled" : ""}>
 
-            ${isRegistered
+            ${registered
                 ? "Already Registered ✓"
-                : "Register for Event"}
+                : "Register"}
 
         </button>
 
@@ -873,89 +1117,91 @@ function openEventDetails(eventId) {
     document.getElementById(
         "eventModal"
     ).style.display = "flex";
+
 }
 
 
-// ======================================================
+// ============================================================
 // CLOSE MODAL
-// ======================================================
+// ============================================================
 
 function closeModal() {
 
     document.getElementById(
         "eventModal"
     ).style.display = "none";
+
 }
 
 
-// ======================================================
-// REGISTER FOR EVENT
-// ======================================================
+// ============================================================
+// REGISTER EVENT
+// ============================================================
 
-function registerForEvent(eventId) {
-
-    if (!currentUser) {
-
-        showLogin();
-
-        return;
-    }
-
+function registerEvent(eventId) {
 
     const event =
         events.find(
-            event => event.id === eventId
+            e => e.id === eventId
         );
 
 
     if (!event) return;
 
 
-    if (!registeredEvents[currentUser.id]) {
+    if (!registrations[currentUser.id]) {
 
-        registeredEvents[currentUser.id] = [];
+        registrations[currentUser.id] = [];
 
     }
 
 
-    const myEvents =
-        registeredEvents[currentUser.id];
-
-
-    // Already registered
-
-    if (myEvents.includes(eventId)) {
+    if (
+        registrations[currentUser.id]
+            .includes(eventId)
+    ) {
 
         alert(
-            "You are already registered for this event."
+            "You are already registered."
         );
 
         return;
+
     }
 
 
-    // Check schedule clash
+    // Schedule clash
 
-    if (checkScheduleClash(event)) {
+    const clash =
+        registrations[currentUser.id]
+            .some(id => {
 
-        const confirmRegistration =
+                const oldEvent =
+                    events.find(
+                        e => e.id === id
+                    );
+
+                return oldEvent &&
+                       oldEvent.date === event.date;
+
+            });
+
+
+    if (clash) {
+
+        const proceed =
             confirm(
-                "You already have another event on the same date. Do you still want to register?"
+                "You already have another event on this date. Continue registration?"
             );
 
 
-        if (!confirmRegistration) {
-
-            return;
-
-        }
+        if (!proceed) return;
 
     }
 
 
-    // Register
-
-    myEvents.push(eventId);
+    registrations[currentUser.id]
+        .push(eventId);
 
 
     // Notification
@@ -967,24 +1213,25 @@ function registerForEvent(eventId) {
     }
 
 
-    notifications[currentUser.id].unshift({
+    notifications[currentUser.id]
+        .unshift({
 
-        id: Date.now(),
+            id: Date.now(),
 
-        text:
-            `You successfully registered for "${event.title}".`,
+            text:
+                `You registered for "${event.title}".`,
 
-        time:
-            new Date().toLocaleString()
+            time:
+                new Date().toLocaleString()
 
-    });
+        });
 
 
-    saveData();
+    saveAll();
 
 
     alert(
-        `Successfully registered for "${event.title}"!`
+        "Registration successful! ✓"
     );
 
 
@@ -993,60 +1240,30 @@ function registerForEvent(eventId) {
 
     displayEvents(events);
 
-    updateDashboard();
+    displayMyEvents();
 
-    displayRegisteredEvents();
-
-    displayNotifications();
-}
-
-
-// ======================================================
-// SCHEDULE CLASH
-// ======================================================
-
-function checkScheduleClash(newEvent) {
-
-    const myEvents =
-        registeredEvents[currentUser.id] || [];
-
-
-    return myEvents.some(eventId => {
-
-        const registeredEvent =
-            events.find(
-                event => event.id === eventId
-            );
-
-
-        return registeredEvent &&
-               registeredEvent.date === newEvent.date;
-
-    });
+    updateStudentDashboard();
 
 }
 
 
-// ======================================================
-// MY REGISTERED EVENTS
-// ======================================================
+// ============================================================
+// MY EVENTS
+// ============================================================
 
-function displayRegisteredEvents() {
+function displayMyEvents() {
 
     const container =
         document.getElementById(
-            "registeredEventsContainer"
+            "myEventsContainer"
         );
 
 
-    if (!container) return;
+    container.innerHTML = "";
 
 
     const myEvents =
-        registeredEvents[currentUser.id] || [];
-
-
-    container.innerHTML = "";
+        registrations[currentUser.id] || [];
 
 
     if (myEvents.length === 0) {
@@ -1055,11 +1272,12 @@ function displayRegisteredEvents() {
 
             <div class="event-card">
 
-                <h3>No registered events yet.</h3>
+                <h3>
+                    No registered events.
+                </h3>
 
                 <p>
-                    Go to the Events page and register
-                    for an event.
+                    Register for an event to see it here.
                 </p>
 
             </div>
@@ -1067,18 +1285,24 @@ function displayRegisteredEvents() {
         `;
 
         return;
+
     }
 
 
-    myEvents.forEach(eventId => {
+    myEvents.forEach(id => {
 
         const event =
             events.find(
-                event => event.id === eventId
+                e => e.id === id
             );
 
 
         if (!event) return;
+
+
+        const attended =
+            (attendance[currentUser.id] || [])
+            .includes(event.id);
 
 
         container.innerHTML += `
@@ -1108,25 +1332,38 @@ function displayRegisteredEvents() {
                 </div>
 
 
-                <button
-                    class="primary-btn"
-                    onclick="markAttendance(${event.id})">
+                ${
+                    attended
 
-                    🎫 Mark Attendance
+                    ?
 
-                </button>
+                    `
 
+                    <button
+                        class="primary-btn"
+                        onclick="generateCertificate(${event.id})">
 
-                <br><br>
+                        🏆 Get Certificate
 
+                    </button>
 
-                <button
-                    class="secondary-btn"
-                    onclick="generateCertificate(${event.id})">
+                    `
 
-                    📜 Generate Certificate
+                    :
 
-                </button>
+                    `
+
+                    <button
+                        class="primary-btn"
+                        onclick="openAttendance(${event.id})">
+
+                        📷 Scan QR Attendance
+
+                    </button>
+
+                    `
+
+                }
 
             </div>
 
@@ -1137,15 +1374,111 @@ function displayRegisteredEvents() {
 }
 
 
-// ======================================================
-// ATTENDANCE
-// ======================================================
+// ============================================================
+// OPEN ATTENDANCE
+// ============================================================
 
-function markAttendance(eventId) {
+function openAttendance(eventId) {
+
+    showPage("attendancePage");
+
+
+    setTimeout(() => {
+
+        document.getElementById(
+            "attendanceEventSelect"
+        ).value = eventId;
+
+    }, 50);
+
+}
+
+
+// ============================================================
+// LOAD ATTENDANCE EVENTS
+// ============================================================
+
+function loadAttendanceEvents() {
+
+    const select =
+        document.getElementById(
+            "attendanceEventSelect"
+        );
+
+
+    select.innerHTML =
+        `<option value="">
+            Select Event
+        </option>`;
+
+
+    const myEvents =
+        registrations[currentUser.id] || [];
+
+
+    myEvents.forEach(id => {
+
+        const event =
+            events.find(
+                e => e.id === id
+            );
+
+
+        if (!event) return;
+
+
+        const option =
+            document.createElement("option");
+
+
+        option.value = event.id;
+
+        option.textContent =
+            event.title;
+
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+// ============================================================
+// QR ATTENDANCE SCANNER
+// ============================================================
+
+function scanAttendance() {
+
+    const select =
+        document.getElementById(
+            "attendanceEventSelect"
+        );
+
+
+    const eventId =
+        Number(select.value);
+
+
+    const message =
+        document.getElementById(
+            "scannerMessage"
+        );
+
+
+    if (!eventId) {
+
+        message.textContent =
+            "Please select an event.";
+
+        return;
+
+    }
+
 
     const event =
         events.find(
-            event => event.id === eventId
+            e => e.id === eventId
         );
 
 
@@ -1161,57 +1494,190 @@ function markAttendance(eventId) {
 
     if (
         attendance[currentUser.id]
-        .includes(eventId)
+            .includes(eventId)
     ) {
 
-        alert(
-            "Attendance already marked."
-        );
+        message.textContent =
+            "Attendance is already marked.";
 
         return;
+
     }
 
 
-    attendance[currentUser.id].push(eventId);
+    /*
+        DEMO QR SCANNER
+
+        For this frontend prototype,
+        clicking SCAN simulates a
+        successful QR scan.
+
+        Later this can be replaced
+        with a real QR scanning
+        library/backend.
+    */
 
 
-    notifications[currentUser.id].unshift({
-
-        id: Date.now(),
-
-        text:
-            `Attendance marked for "${event.title}".`,
-
-        time:
-            new Date().toLocaleString()
-
-    });
+    attendance[currentUser.id]
+        .push(eventId);
 
 
-    saveData();
+    notifications[currentUser.id]
+        .unshift({
+
+            id: Date.now(),
+
+            text:
+                `Attendance marked for "${event.title}".`,
+
+            time:
+                new Date().toLocaleString()
+
+        });
+
+
+    saveAll();
+
+
+    message.textContent =
+        "QR scanned successfully! Attendance marked ✓";
 
 
     alert(
-        "Attendance marked successfully! ✓"
+        `Attendance marked for ${event.title}!`
     );
 
 
-    updateDashboard();
+    updateStudentDashboard();
 
-    displayRegisteredEvents();
+    displayMyEvents();
 
 }
 
 
-// ======================================================
-// CERTIFICATE
-// ======================================================
+// ============================================================
+// CERTIFICATES
+// ============================================================
+
+function displayCertificates() {
+
+    const container =
+        document.getElementById(
+            "certificatesContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const myCertificates =
+        certificates[currentUser.id] || [];
+
+
+    const myAttendance =
+        attendance[currentUser.id] || [];
+
+
+    // Create certificates for attended events
+
+    myAttendance.forEach(eventId => {
+
+        if (
+            !myCertificates.includes(eventId)
+        ) {
+
+            myCertificates.push(eventId);
+
+        }
+
+    });
+
+
+    saveAll();
+
+
+    if (myCertificates.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="certificate-card">
+
+                <h3>
+                    No Certificates Yet
+                </h3>
+
+                <p>
+                    Attend an event to receive your certificate.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    myCertificates.forEach(eventId => {
+
+        const event =
+            events.find(
+                e => e.id === eventId
+            );
+
+
+        if (!event) return;
+
+
+        container.innerHTML += `
+
+            <div class="certificate-card">
+
+                <div style="font-size:40px;">
+                    🏆
+                </div>
+
+                <h3>
+                    Certificate of Participation
+                </h3>
+
+                <p>
+                    ${currentUser.name}
+                </p>
+
+                <p>
+                    ${event.title}
+                </p>
+
+                <br>
+
+                <button
+                    class="primary-btn"
+                    onclick="generateCertificate(${event.id})">
+
+                    Download Certificate
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// ============================================================
+// GENERATE CERTIFICATE
+// ============================================================
 
 function generateCertificate(eventId) {
 
     const event =
         events.find(
-            event => event.id === eventId
+            e => e.id === eventId
         );
 
 
@@ -1219,65 +1685,48 @@ function generateCertificate(eventId) {
 
 
     const attended =
-        attendance[currentUser.id] || [];
+        (attendance[currentUser.id] || [])
+        .includes(eventId);
 
 
-    if (!attended.includes(eventId)) {
+    if (!attended) {
 
         alert(
-            "Please mark attendance before generating the certificate."
+            "Attendance is required before getting the certificate."
         );
 
         return;
-    }
-
-
-    if (!certificates[currentUser.id]) {
-
-        certificates[currentUser.id] = [];
 
     }
 
 
-    if (
-        !certificates[currentUser.id]
-            .includes(eventId)
-    ) {
+    const certificate = `
 
-        certificates[currentUser.id]
-            .push(eventId);
+==================================================
 
-    }
+             CERTIFICATE OF PARTICIPATION
+
+==================================================
 
 
-    saveData();
+This certificate is proudly presented to
 
 
-    const certificateText = `
+                 ${currentUser.name}
 
-========================================
-
-             CERTIFICATE
-
-========================================
-
-
-This is to certify that
-
-
-${currentUser.name}
 
 USN: ${currentUser.usn}
 
 
-has successfully participated in
+for successfully participating in
 
 
-${event.title}
+              ${event.title}
 
 
-held on ${event.date}
+Category: ${event.category}
 
+Date: ${event.date}
 
 Venue: ${event.venue}
 
@@ -1285,17 +1734,17 @@ Venue: ${event.venue}
 Congratulations!
 
 
-CampusConnect
-College Event Management System
+                 CampusConnect
+        College Event Management System
 
 
-========================================
+==================================================
 `;
 
 
     const blob =
         new Blob(
-            [certificateText],
+            [certificate],
             { type: "text/plain" }
         );
 
@@ -1310,6 +1759,7 @@ College Event Management System
 
     link.href = url;
 
+
     link.download =
         `${event.title}-Certificate.txt`;
 
@@ -1319,14 +1769,12 @@ College Event Management System
 
     URL.revokeObjectURL(url);
 
-
-    updateDashboard();
 }
 
 
-// ======================================================
+// ============================================================
 // NOTIFICATIONS
-// ======================================================
+// ============================================================
 
 function displayNotifications() {
 
@@ -1336,11 +1784,11 @@ function displayNotifications() {
         );
 
 
+    container.innerHTML = "";
+
+
     const userNotifications =
         notifications[currentUser.id] || [];
-
-
-    container.innerHTML = "";
 
 
     if (userNotifications.length === 0) {
@@ -1349,15 +1797,14 @@ function displayNotifications() {
 
             <div class="notification-card">
 
-                <p>
-                    No notifications yet.
-                </p>
+                No notifications yet.
 
             </div>
 
         `;
 
         return;
+
     }
 
 
@@ -1381,14 +1828,12 @@ function displayNotifications() {
 
     });
 
-
-    updateNotificationCount();
 }
 
 
-// ======================================================
+// ============================================================
 // NOTIFICATION COUNT
-// ======================================================
+// ============================================================
 
 function updateNotificationCount() {
 
@@ -1403,12 +1848,13 @@ function updateNotificationCount() {
     document.getElementById(
         "notificationCount"
     ).textContent = count;
+
 }
 
 
-// ======================================================
+// ============================================================
 // PROFILE
-// ======================================================
+// ============================================================
 
 function displayProfile() {
 
@@ -1431,76 +1877,479 @@ function displayProfile() {
         "profileEmail"
     ).textContent =
         currentUser.email;
+
 }
 
 
-// ======================================================
-// INITIALIZATION
-// ======================================================
+// ============================================================
+// ADMIN DASHBOARD
+// ============================================================
+
+function updateAdminDashboard() {
+
+    document.getElementById(
+        "adminTotalEvents"
+    ).textContent =
+        events.length;
+
+
+    document.getElementById(
+        "adminTotalStudents"
+    ).textContent =
+        users.length;
+
+
+    let totalRegistrations = 0;
+
+
+    Object.values(registrations)
+        .forEach(list => {
+
+            totalRegistrations +=
+                list.length;
+
+        });
+
+
+    document.getElementById(
+        "adminRegistrations"
+    ).textContent =
+        totalRegistrations;
+
+}
+
+
+// ============================================================
+// ADMIN EVENTS
+// ============================================================
+
+function displayAdminEvents() {
+
+    const container =
+        document.getElementById(
+            "adminEventsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    events.forEach(event => {
+
+        const registrationCount =
+            Object.values(registrations)
+                .filter(list =>
+                    list.includes(event.id)
+                )
+                .length;
+
+
+        container.innerHTML += `
+
+            <div class="event-card">
+
+                <span class="event-category">
+                    ${event.category}
+                </span>
+
+                <h3>
+                    ${event.title}
+                </h3>
+
+                <div class="event-info">
+
+                    📅 ${event.date}
+
+                    <br>
+
+                    ⏰ ${event.time}
+
+                    <br>
+
+                    📍 ${event.venue}
+
+                    <br>
+
+                    👥 Capacity: ${event.seats}
+
+                    <br>
+
+                    📝 Registrations:
+                    ${registrationCount}
+
+                </div>
+
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteEvent(${event.id})">
+
+                    🗑️ DELETE EVENT
+
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// ============================================================
+// ADD EVENT
+// ============================================================
+
+function addEvent(event) {
+
+    event.preventDefault();
+
+
+    const title =
+        document.getElementById(
+            "eventName"
+        ).value.trim();
+
+
+    const category =
+        document.getElementById(
+            "eventCategory"
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            "eventDate"
+        ).value;
+
+
+    const time =
+        document.getElementById(
+            "eventTime"
+        ).value.trim();
+
+
+    const venue =
+        document.getElementById(
+            "eventVenue"
+        ).value.trim();
+
+
+    const seats =
+        Number(
+            document.getElementById(
+                "eventSeats"
+            ).value
+        );
+
+
+    const description =
+        document.getElementById(
+            "eventDescription"
+        ).value.trim();
+
+
+    const newEvent = {
+
+        id: Date.now(),
+
+        title: title,
+
+        category: category,
+
+        date: date,
+
+        time: time,
+
+        venue: venue,
+
+        seats: seats,
+
+        description: description
+
+    };
+
+
+    events.push(newEvent);
+
+
+    saveAll();
+
+
+    alert(
+        "Event added successfully! ✓"
+    );
+
+
+    document
+        .getElementById("addEventForm")
+        .reset();
+
+
+    showPage("adminEventsPage");
+
+}
+
+
+// ============================================================
+// DELETE EVENT
+// ============================================================
+
+function deleteEvent(eventId) {
+
+    const event =
+        events.find(
+            e => e.id === eventId
+        );
+
+
+    if (!event) return;
+
+
+    const confirmDelete =
+        confirm(
+            `Are you sure you want to delete "${event.title}"?`
+        );
+
+
+    if (!confirmDelete) return;
+
+
+    events =
+        events.filter(
+            e => e.id !== eventId
+        );
+
+
+    // Remove event from registrations
+
+    Object.keys(registrations)
+        .forEach(userId => {
+
+            registrations[userId] =
+                registrations[userId]
+                .filter(
+                    id => id !== eventId
+                );
+
+        });
+
+
+    // Remove attendance
+
+    Object.keys(attendance)
+        .forEach(userId => {
+
+            attendance[userId] =
+                attendance[userId]
+                .filter(
+                    id => id !== eventId
+                );
+
+        });
+
+
+    // Remove certificates
+
+    Object.keys(certificates)
+        .forEach(userId => {
+
+            certificates[userId] =
+                certificates[userId]
+                .filter(
+                    id => id !== eventId
+                );
+
+        });
+
+
+    saveAll();
+
+
+    alert(
+        "Event deleted successfully."
+    );
+
+
+    displayAdminEvents();
+
+}
+
+
+// ============================================================
+// ADMIN REGISTRATIONS
+// ============================================================
+
+function displayRegistrations() {
+
+    const container =
+        document.getElementById(
+            "registrationsContainer"
+        );
+
+
+    container.innerHTML = "";
+
+
+    events.forEach(event => {
+
+
+        const registeredStudents = [];
+
+
+        users.forEach(user => {
+
+            const userRegistrations =
+                registrations[user.id] || [];
+
+
+            if (
+                userRegistrations
+                    .includes(event.id)
+            ) {
+
+                registeredStudents.push(user);
+
+            }
+
+        });
+
+
+        container.innerHTML += `
+
+            <div class="registration-card">
+
+                <h2>
+                    ${event.title}
+                </h2>
+
+                <p>
+                    📅 ${event.date}
+                </p>
+
+                <p>
+                    👥
+                    ${registeredStudents.length}
+                    students registered
+                </p>
+
+
+                <br>
+
+
+                ${
+                    registeredStudents.length === 0
+
+                    ?
+
+                    "<p>No registrations yet.</p>"
+
+                    :
+
+                    registeredStudents
+                    .map(student => `
+
+                        <div class="student-registration">
+
+                            👤
+                            <strong>
+                                ${student.name}
+                            </strong>
+
+                            <br>
+
+                            USN:
+                            ${student.usn}
+
+                            <br>
+
+                            Email:
+                            ${student.email}
+
+                        </div>
+
+                    `)
+                    .join("")
+
+                }
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// ============================================================
+// FORM EVENTS
+// ============================================================
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
 
-        // Login form
+        // Student login
 
-        const loginForm =
-            document.getElementById(
-                "loginForm"
-            );
-
-
-        if (loginForm) {
-
-            loginForm.addEventListener(
+        document
+            .getElementById(
+                "studentLoginForm"
+            )
+            .addEventListener(
                 "submit",
-                loginUser
+                login
             );
 
-        }
 
+        // Create account
 
-        // Create account form
-
-        const createAccountForm =
-            document.getElementById(
+        document
+            .getElementById(
                 "createAccountForm"
-            );
-
-
-        if (createAccountForm) {
-
-            createAccountForm.addEventListener(
+            )
+            .addEventListener(
                 "submit",
                 createAccount
             );
 
-        }
 
+        // Admin add event
 
-        // If already logged in
-
-        const savedUser =
-            JSON.parse(
-                localStorage.getItem(
-                    "campusCurrentUser"
-                )
+        document
+            .getElementById(
+                "addEventForm"
+            )
+            .addEventListener(
+                "submit",
+                addEvent
             );
 
 
-        if (savedUser) {
+        // Existing login
 
-            currentUser = savedUser;
+        if (
+            currentUser &&
+            currentRole
+        ) {
 
-            document.getElementById(
-                "navbar"
-            ).style.display = "flex";
+            if (
+                currentRole === "admin"
+            ) {
 
+                showPage(
+                    "adminDashboardPage"
+                );
 
-            showPage(
-                "dashboardPage"
-            );
+            } else {
+
+                showPage(
+                    "dashboardPage"
+                );
+
+            }
 
         } else {
 
