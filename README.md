@@ -66,6 +66,9 @@ AI VERSION
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9d12c4a7-9f8b-4200-8e51-990c347cd6f3" />
 
+the URL of working website
+https://prajwalajr.github.io/skill-lab-Project/
+
 
 
 
