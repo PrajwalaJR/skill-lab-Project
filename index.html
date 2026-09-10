@@ -2,344 +2,885 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CampusConnect - College Event Management</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="index.css">
+    <title>CampusConnect</title>
+
+    <link rel="stylesheet"
+          href="index.css">
+
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
 
-    <nav id="navbar" class="navbar">
+<!-- =====================================================
+                    LOGIN PAGE
+===================================================== -->
 
-        <div class="logo">
+<section id="loginPage" class="page auth-page">
+
+    <div class="auth-box">
+
+        <h1 class="logo">
             Campus<span>Connect</span>
-        </div>
+        </h1>
 
-        <div class="nav-links">
+        <h2>Welcome Back 👋</h2>
 
-            <button onclick="showPage('dashboardPage')">
-                🏠 Dashboard
+        <p>Login to continue</p>
+
+        <div class="login-tabs">
+
+            <button id="studentLoginTab"
+                    class="tab active"
+                    onclick="showStudentLogin()">
+
+                Student Login
+
             </button>
 
-            <button onclick="showPage('eventsPage')">
-                📅 Events
-            </button>
+            <button id="adminLoginTab"
+                    class="tab"
+                    onclick="showAdminLogin()">
 
-            <button onclick="showPage('registeredPage')">
-                📝 My Events
-            </button>
+                Admin Login
 
-            <button onclick="showPage('notificationsPage')">
-                🔔 Notifications
-                <span id="notificationCount" class="notification-badge">0</span>
-            </button>
-
-            <button onclick="showPage('profilePage')">
-                👤 Profile
-            </button>
-
-            <button onclick="logoutUser()" class="logout-btn">
-                Logout
             </button>
 
         </div>
 
-    </nav>
+
+        <!-- STUDENT LOGIN -->
+
+        <form id="studentLoginForm">
+
+            <label>Email or USN</label>
+
+            <input type="text"
+                   id="loginIdentifier"
+                   placeholder="Enter Email or USN"
+                   required>
 
 
-    <!-- ================= LOGIN PAGE ================= -->
+            <label>Password</label>
 
-    <section id="loginPage" class="page auth-page">
+            <input type="password"
+                   id="loginPassword"
+                   placeholder="Enter Password"
+                   required>
 
-        <div class="auth-container">
 
-            <div class="auth-logo">
-                Campus<span>Connect</span>
-            </div>
+            <button type="submit"
+                    class="primary-btn">
 
-            <h2>Welcome Back 👋</h2>
+                LOGIN
 
-            <p class="auth-subtitle">
-                Login to manage and explore college events
+            </button>
+
+        </form>
+
+        <p id="loginMessage"
+           class="message">
+        </p>
+
+
+        <div class="account-link">
+
+            New student?
+
+            <button onclick="showCreateAccount()"
+                    class="link-btn">
+
+                Create Account
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                CREATE ACCOUNT PAGE
+===================================================== -->
+
+<section id="createAccountPage"
+         class="page auth-page">
+
+    <div class="auth-box">
+
+        <h1 class="logo">
+            Campus<span>Connect</span>
+        </h1>
+
+        <h2>Create Account</h2>
+
+        <p>Register as a student</p>
+
+
+        <form id="createAccountForm">
+
+            <label>Full Name</label>
+
+            <input type="text"
+                   id="registerName"
+                   placeholder="Enter Full Name"
+                   required>
+
+
+            <label>USN</label>
+
+            <input type="text"
+                   id="registerUSN"
+                   placeholder="Enter USN"
+                   required>
+
+
+            <label>Email</label>
+
+            <input type="email"
+                   id="registerEmail"
+                   placeholder="Enter Email"
+                   required>
+
+
+            <label>Password</label>
+
+            <input type="password"
+                   id="registerPassword"
+                   placeholder="Create Password"
+                   required>
+
+
+            <label>Confirm Password</label>
+
+            <input type="password"
+                   id="confirmPassword"
+                   placeholder="Confirm Password"
+                   required>
+
+
+            <button type="submit"
+                    class="primary-btn">
+
+                CREATE ACCOUNT
+
+            </button>
+
+        </form>
+
+
+        <p id="registerMessage"
+           class="message">
+        </p>
+
+
+        <div class="account-link">
+
+            Already have an account?
+
+            <button onclick="showLogin()"
+                    class="link-btn">
+
+                Login
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    NAVIGATION BAR
+===================================================== -->
+
+<nav id="navbar"
+     class="navbar"
+     style="display:none;">
+
+    <div class="nav-logo">
+        Campus<span>Connect</span>
+    </div>
+
+
+    <!-- STUDENT NAVIGATION -->
+
+    <div id="studentNav"
+         class="nav-links">
+
+        <button onclick="showPage('dashboardPage')">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('eventsPage')">
+            📅 Events
+        </button>
+
+        <button onclick="showPage('myEventsPage')">
+            📝 My Events
+        </button>
+
+        <button onclick="showPage('notificationsPage')">
+            🔔 Notifications
+            <span id="notificationCount"
+                  class="badge">0</span>
+        </button>
+
+        <button onclick="showPage('profilePage')">
+            👤 Profile
+        </button>
+
+        <button onclick="logout()"
+                class="logout">
+            Logout
+        </button>
+
+    </div>
+
+
+    <!-- ADMIN NAVIGATION -->
+
+    <div id="adminNav"
+         class="nav-links"
+         style="display:none;">
+
+        <button onclick="showPage('adminDashboardPage')">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="showPage('adminEventsPage')">
+            📅 Manage Events
+        </button>
+
+        <button onclick="showPage('adminAddEventPage')">
+            ➕ Add Event
+        </button>
+
+        <button onclick="showPage('adminRegistrationsPage')">
+            👥 Registrations
+        </button>
+
+        <button onclick="logout()"
+                class="logout">
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+                    STUDENT DASHBOARD
+===================================================== -->
+
+<section id="dashboardPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="welcome">
+
+            <h1>
+                Welcome,
+                <span id="dashboardName">
+                    Student
+                </span>
+                👋
+            </h1>
+
+            <p>
+                Manage your college events from one place.
             </p>
 
-            <form id="loginForm">
+        </div>
 
-                <label>Email or USN</label>
 
-                <input
-                    type="text"
-                    id="loginIdentifier"
-                    placeholder="Enter your Email or USN"
-                    required
-                >
+        <!-- STATISTICS -->
 
-                <label>Password</label>
+        <div class="stats">
 
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter your Password"
-                    required
-                >
+            <div class="stat-card">
 
-                <button type="submit" class="primary-btn">
-                    LOGIN
-                </button>
+                <span>📅</span>
 
-            </form>
+                <div>
+                    <h3 id="totalEvents">
+                        0
+                    </h3>
 
-            <p id="loginMessage" class="message"></p>
+                    <p>Total Events</p>
+                </div>
 
-            <div class="auth-switch">
+            </div>
 
-                New user?
 
-                <button
-                    type="button"
-                    onclick="showCreateAccount()"
-                    class="link-button">
-                    Create an account
-                </button>
+            <div class="stat-card">
+
+                <span>📝</span>
+
+                <div>
+                    <h3 id="myEventCount">
+                        0
+                    </h3>
+
+                    <p>My Events</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>🎫</span>
+
+                <div>
+                    <h3 id="attendanceCount">
+                        0
+                    </h3>
+
+                    <p>Attendance</p>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>🏆</span>
+
+                <div>
+                    <h3 id="certificateCount">
+                        0
+                    </h3>
+
+                    <p>Certificates</p>
+                </div>
 
             </div>
 
         </div>
 
-    </section>
 
+        <div class="section-heading">
 
-    <!-- ================= CREATE ACCOUNT PAGE ================= -->
+            <h2>
+                Upcoming Events
+            </h2>
 
-    <section id="createAccountPage" class="page auth-page">
-
-        <div class="auth-container">
-
-            <div class="auth-logo">
-                Campus<span>Connect</span>
-            </div>
-
-            <h2>Create Account</h2>
-
-            <p class="auth-subtitle">
-                Register as a new student
-            </p>
-
-            <form id="createAccountForm">
-
-                <label>Full Name</label>
-
-                <input
-                    type="text"
-                    id="registerName"
-                    placeholder="Enter your full name"
-                    required
-                >
-
-
-                <label>USN</label>
-
-                <input
-                    type="text"
-                    id="registerUSN"
-                    placeholder="Enter your USN"
-                    required
-                >
-
-
-                <label>Email</label>
-
-                <input
-                    type="email"
-                    id="registerEmail"
-                    placeholder="Enter your email"
-                    required
-                >
-
-
-                <label>Password</label>
-
-                <input
-                    type="password"
-                    id="registerPassword"
-                    placeholder="Create a password"
-                    required
-                >
-
-
-                <label>Confirm Password</label>
-
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    placeholder="Confirm your password"
-                    required
-                >
-
-
-                <button type="submit" class="primary-btn">
-                    CREATE ACCOUNT
-                </button>
-
-            </form>
-
-            <p id="registerMessage" class="message"></p>
-
-
-            <div class="auth-switch">
-
-                Already have an account?
-
-                <button
-                    type="button"
-                    onclick="showLogin()"
-                    class="link-button">
-                    Login
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- ================= DASHBOARD ================= -->
-
-    <section id="dashboardPage" class="page">
-
-        <div class="container">
-
-            <div class="welcome-section">
-
-                <h1>
-                    Welcome, <span id="dashboardName">Student</span> 👋
-                </h1>
-
-                <p>
-                    Manage your college events from one place.
-                </p>
-
-            </div>
-
-
-            <!-- STATISTICS -->
-
-            <div class="stats-grid">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">📅</div>
-
-                    <div>
-                        <h3 id="totalEvents">0</h3>
-                        <p>Total Events</p>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">📝</div>
-
-                    <div>
-                        <h3 id="registeredEvents">0</h3>
-                        <p>My Registrations</p>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">🎫</div>
-
-                    <div>
-                        <h3 id="attendedEvents">0</h3>
-                        <p>Events Attended</p>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon">🏆</div>
-
-                    <div>
-                        <h3 id="certificateCount">0</h3>
-                        <p>Certificates</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- UPCOMING EVENTS -->
-
-            <div class="section-header">
-
-                <h2>Upcoming Events</h2>
-
-                <button
-                    class="secondary-btn"
+            <button class="secondary-btn"
                     onclick="showPage('eventsPage')">
 
-                    View All Events →
+                View All Events →
 
-                </button>
-
-            </div>
-
-            <div id="dashboardEvents" class="events-grid"></div>
+            </button>
 
         </div>
 
-    </section>
+
+        <div id="dashboardEvents"
+             class="events-grid">
+        </div>
+
+    </div>
+
+</section>
 
 
-    <!-- ================= EVENTS PAGE ================= -->
 
-    <section id="eventsPage" class="page">
+<!-- =====================================================
+                    EVENTS PAGE
+===================================================== -->
 
-        <div class="container">
+<section id="eventsPage"
+         class="page">
 
-            <div class="page-title">
+    <div class="container">
 
-                <h1>College Events 📅</h1>
+        <div class="page-title">
+
+            <h1>
+                College Events 📅
+            </h1>
+
+            <p>
+                Discover and register for upcoming events.
+            </p>
+
+        </div>
+
+
+        <div class="search-area">
+
+            <input type="text"
+                   id="searchInput"
+                   placeholder="🔎 Search events..."
+                   oninput="filterEvents()">
+
+
+            <select id="categoryFilter"
+                    onchange="filterEvents()">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="Technical">
+                    Technical
+                </option>
+
+                <option value="Cultural">
+                    Cultural
+                </option>
+
+                <option value="Sports">
+                    Sports
+                </option>
+
+                <option value="Workshop">
+                    Workshop
+                </option>
+
+                <option value="Seminar">
+                    Seminar
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div id="eventsContainer"
+             class="events-grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    MY EVENTS PAGE
+===================================================== -->
+
+<section id="myEventsPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                My Events 📝
+            </h1>
+
+            <p>
+                Manage your registered events.
+            </p>
+
+        </div>
+
+
+        <div id="myEventsContainer"
+             class="events-grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                QR ATTENDANCE PAGE
+===================================================== -->
+
+<section id="attendancePage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                QR Attendance Scanner 📷
+            </h1>
+
+            <p>
+                Scan the event QR code to mark your attendance.
+            </p>
+
+        </div>
+
+
+        <div class="scanner-box">
+
+            <div class="scanner-icon">
+                📷
+            </div>
+
+            <h2>
+                QR Scanner
+            </h2>
+
+            <p>
+                Select your registered event and scan its QR code.
+            </p>
+
+
+            <select id="attendanceEventSelect">
+
+                <option value="">
+                    Select Event
+                </option>
+
+            </select>
+
+
+            <div class="fake-scanner">
+
+                <div class="scan-line"></div>
+
+                <span>
+                    QR SCANNER
+                </span>
+
+            </div>
+
+
+            <button class="primary-btn"
+                    onclick="scanAttendance()">
+
+                SCAN QR CODE
+
+            </button>
+
+
+            <p id="scannerMessage"
+               class="message">
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    CERTIFICATES
+===================================================== -->
+
+<section id="certificatesPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                My Certificates 🏆
+            </h1>
+
+            <p>
+                Certificates for attended events.
+            </p>
+
+        </div>
+
+
+        <div id="certificatesContainer"
+             class="certificate-grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    NOTIFICATIONS
+===================================================== -->
+
+<section id="notificationsPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Notifications 🔔
+            </h1>
+
+        </div>
+
+
+        <div id="notificationsContainer">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    PROFILE
+===================================================== -->
+
+<section id="profilePage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                My Profile 👤
+            </h1>
+
+        </div>
+
+
+        <div class="profile-card">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <div>
+
+                <h2 id="profileName">
+                    Student
+                </h2>
 
                 <p>
-                    Discover and register for upcoming events.
+                    <strong>USN:</strong>
+                    <span id="profileUSN"></span>
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <span id="profileEmail"></span>
                 </p>
 
             </div>
 
+        </div>
 
-            <!-- SEARCH -->
+    </div>
 
-            <div class="search-filter">
-
-                <input
-                    type="text"
-                    id="eventSearch"
-                    placeholder="🔎 Search events..."
-                    oninput="searchEvents()"
-                >
+</section>
 
 
-                <select
-                    id="categoryFilter"
-                    onchange="filterCategory()">
 
-                    <option value="all">
-                        All Categories
+<!-- =====================================================
+                ADMIN DASHBOARD
+===================================================== -->
+
+<section id="adminDashboardPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="welcome">
+
+            <h1>
+                Admin Dashboard 🛠️
+            </h1>
+
+            <p>
+                Manage CampusConnect events and registrations.
+            </p>
+
+        </div>
+
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <span>📅</span>
+
+                <div>
+
+                    <h3 id="adminTotalEvents">
+                        0
+                    </h3>
+
+                    <p>Total Events</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>👥</span>
+
+                <div>
+
+                    <h3 id="adminTotalStudents">
+                        0
+                    </h3>
+
+                    <p>Registered Students</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>📝</span>
+
+                <div>
+
+                    <h3 id="adminRegistrations">
+                        0
+                    </h3>
+
+                    <p>Total Registrations</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-actions">
+
+            <button class="admin-action-btn"
+                    onclick="showPage('adminAddEventPage')">
+
+                ➕ Add New Event
+
+            </button>
+
+
+            <button class="admin-action-btn"
+                    onclick="showPage('adminEventsPage')">
+
+                📅 Manage Events
+
+            </button>
+
+
+            <button class="admin-action-btn"
+                    onclick="showPage('adminRegistrationsPage')">
+
+                👥 View Registrations
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                ADMIN MANAGE EVENTS
+===================================================== -->
+
+<section id="adminEventsPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Manage Events 📅
+            </h1>
+
+            <p>
+                Add, view and delete college events.
+            </p>
+
+        </div>
+
+
+        <button class="primary-btn small-btn"
+                onclick="showPage('adminAddEventPage')">
+
+            ➕ Add Event
+
+        </button>
+
+
+        <br><br>
+
+
+        <div id="adminEventsContainer"
+             class="events-grid">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                ADMIN ADD EVENT
+===================================================== -->
+
+<section id="adminAddEventPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Add New Event ➕
+            </h1>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <form id="addEventForm">
+
+                <label>Event Name</label>
+
+                <input type="text"
+                       id="eventName"
+                       placeholder="Enter event name"
+                       required>
+
+
+                <label>Category</label>
+
+                <select id="eventCategory"
+                        required>
+
+                    <option value="">
+                        Select Category
                     </option>
 
                     <option value="Technical">
@@ -364,136 +905,122 @@
 
                 </select>
 
-            </div>
+
+                <label>Date</label>
+
+                <input type="date"
+                       id="eventDate"
+                       required>
 
 
-            <div id="eventsContainer" class="events-grid"></div>
+                <label>Time</label>
 
-        </div>
-
-    </section>
-
-
-    <!-- ================= MY EVENTS ================= -->
-
-    <section id="registeredPage" class="page">
-
-        <div class="container">
-
-            <div class="page-title">
-
-                <h1>My Events 📝</h1>
-
-                <p>
-                    Events you have registered for.
-                </p>
-
-            </div>
-
-            <div id="registeredEventsContainer"
-                 class="events-grid">
-            </div>
-
-        </div>
-
-    </section>
+                <input type="text"
+                       id="eventTime"
+                       placeholder="Example: 10:00 AM - 1:00 PM"
+                       required>
 
 
-    <!-- ================= NOTIFICATIONS ================= -->
+                <label>Venue</label>
 
-    <section id="notificationsPage" class="page">
-
-        <div class="container">
-
-            <div class="page-title">
-
-                <h1>Notifications 🔔</h1>
-
-                <p>
-                    Stay updated with your event activities.
-                </p>
-
-            </div>
-
-            <div id="notificationsContainer"
-                 class="notifications-container">
-            </div>
-
-        </div>
-
-    </section>
+                <input type="text"
+                       id="eventVenue"
+                       placeholder="Enter venue"
+                       required>
 
 
-    <!-- ================= PROFILE ================= -->
+                <label>Number of Seats</label>
 
-    <section id="profilePage" class="page">
-
-        <div class="container">
-
-            <div class="page-title">
-
-                <h1>My Profile 👤</h1>
-
-                <p>
-                    View your CampusConnect account details.
-                </p>
-
-            </div>
+                <input type="number"
+                       id="eventSeats"
+                       placeholder="Enter seat capacity"
+                       min="1"
+                       required>
 
 
-            <div class="profile-card">
+                <label>Description</label>
 
-                <div class="profile-avatar">
-                    👤
-                </div>
-
-                <div class="profile-details">
-
-                    <h2 id="profileName">
-                        Student
-                    </h2>
-
-                    <p>
-                        <strong>USN:</strong>
-                        <span id="profileUSN"></span>
-                    </p>
-
-                    <p>
-                        <strong>Email:</strong>
-                        <span id="profileEmail"></span>
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
+                <textarea id="eventDescription"
+                          placeholder="Enter event description"
+                          rows="5"
+                          required>
+                </textarea>
 
 
-    <!-- ================= EVENT DETAILS MODAL ================= -->
+                <button type="submit"
+                        class="primary-btn">
 
-    <div id="eventModal" class="modal">
+                    ADD EVENT
 
-        <div class="modal-content">
+                </button>
 
-            <button
-                class="close-btn"
-                onclick="closeModal()">
-                ×
-            </button>
-
-            <div id="eventDetails"></div>
+            </form>
 
         </div>
 
     </div>
 
+</section>
 
-    <!-- ================= JAVASCRIPT ================= -->
 
-    <script src="script.js"></script>
+
+<!-- =====================================================
+            ADMIN REGISTRATION PAGE
+===================================================== -->
+
+<section id="adminRegistrationsPage"
+         class="page">
+
+    <div class="container">
+
+        <div class="page-title">
+
+            <h1>
+                Event Registrations 👥
+            </h1>
+
+            <p>
+                View students registered for events.
+            </p>
+
+        </div>
+
+
+        <div id="registrationsContainer">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+                    EVENT MODAL
+===================================================== -->
+
+<div id="eventModal"
+     class="modal">
+
+    <div class="modal-content">
+
+        <button class="close-btn"
+                onclick="closeModal()">
+
+            ×
+
+        </button>
+
+        <div id="eventDetails">
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script src="script.js"></script>
 
 </body>
 
